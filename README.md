@@ -1,3 +1,3 @@
 # Calc
 
-Advanced Calc (short for calculator)
+Calcs (calc is short for calculator)
