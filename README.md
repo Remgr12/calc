@@ -7,9 +7,6 @@ This repository contains two small Python calculator programs:
 - calc.py — a very small interactive menu-driven simple calculator
   (add/sub/mul/div).
 
-This README focuses on advanced_calculator.py because it provides the primary
-functionality and is suitable for embedding as a library/tool.
-
 ## advanced_calculator.py — features
 
 - Safe evaluation of expressions using Python's AST with a strict whitelist of
@@ -25,10 +22,6 @@ functionality and is suitable for embedding as a library/tool.
 - Matrix class supporting +, -, \*, transpose, det, inv (Gauss–Jordan inverse).
 - Session features: history, inspect variables, save/load variables to JSON.
 - Small CLI REPL and one-shot evaluation with -e / --expr.
-
-Safe evaluation is implemented by SafeEvaluator, which parses expressions with
-ast.parse and only permits a subset of AST nodes and operators. This is intended
-to avoid arbitrary code execution.
 
 ## Usage
 
@@ -85,46 +78,57 @@ Commands in the advanced REPL (prefix with colon `:`):
 - ```bash
   :help
   ```
+
   — print file docstring and help
+
 - ```bash
   :vars
   ```
+
   — list variables in the session
+
 - ```bash
   :history
   ```
+
   — show command history
+
 - ```bash
   :save filename
   ```
+
   — save session variables to filename (JSON)
+
 - ```bash
   :load filename
   ```
+
   — load variables from a saved session
+
 - ```bash
   :clear
   ```
+
   — clear variables and history
+
 - ```bash
   :exit
   ```
+
   or
+
   ```bash
   :quit
   ```
-  — exit REPL
 
-Note: Saved session values attempt to serialize common types; complex numbers
-and Matrix instances have simple JSON encodings handled on load.
+  — exit REPL
 
 ## Environment and compatibility
 
 - Python 3.8+ is recommended. The code contains compatibility stubs for older
   AST node classes.
 - Uses only Python standard library modules (ast, math, json, re, statistics,
-  functools, operator, typing). Readline is optional (used if available for
-  nicer REPL history/navigation).
+  functools, operator, typing). Readline is optional.
 
 ## Library usage
 
@@ -139,22 +143,12 @@ d = numeric_derivative("x**2", "x", 2.0)
 m = Matrix([[1,2],[3,4]]).inv()
 ```
 
-Be aware safe_eval expects expression strings and returns evaluated Python
-objects (numbers, lists, Matrix, etc.). Assignments are supported (e.g. "a = 5")
-and mutate env if you pass a shared env dict.
-
 ## Simple calculator (calc.py)
 
 A tiny interactive menu that demonstrates basic arithmetic operations (add,
-subtract, multiply, divide). Intended as an example / demo; use
-advanced_calculator.py for more powerful features.
-
-## License
-
-No license file is included in the repo. Add a LICENSE file (e.g., MIT,
-Apache-2.0) if you intend to publish or share the project.
+subtract, multiply, divide).
 
 ## Files of interest
 
 - advanced_calculator.py — main feature-rich evaluator and REPL.
-- calc.py — simple CLI calculator example.
+- calc.py — simple CLI calculator.
