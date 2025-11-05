@@ -32,9 +32,8 @@ from functools import reduce
 from operator import mul
 from typing import Any, Dict, List, Union
 
-# optional: improves interactive line editing/history in the REPL
 try:
-    import readline  # may be unavailable on some platforms
+    import readline
 except Exception:
     readline = None
 # ---------------------------
@@ -47,7 +46,6 @@ def prod(iterable):
     return reduce(mul, iterable, 1)
 
 
-# Unit definitions (length only for demo; extendable)
 _UNIT_MAP = {
     "m": 1.0,
     "meter": 1.0,
@@ -81,7 +79,6 @@ def convert(value: Number, from_unit: str, to_unit: str) -> float:
     tu = to_unit.strip().lower()
     if fu not in _UNIT_MAP or tu not in _UNIT_MAP:
         raise ValueError(f"Unknown unit: {from_unit} or {to_unit}")
-    # convert to base (meters / kg / seconds / radians depending)
     base = value * _UNIT_MAP[fu]
     return base / _UNIT_MAP[tu]
 
@@ -273,7 +270,6 @@ class SafeEvaluator(ast.NodeVisitor):
     def visit_Constant(self, node: ast.Constant):
         return node.value
 
-    # For Python <3.8 compatibility where Num/Str/NameConstant exist
     def visit_Num(self, node: ast.Num):
         return node.n
 
@@ -393,7 +389,6 @@ class SafeEvaluator(ast.NodeVisitor):
 # Builtins exposed to eval
 # ---------------------------
 def numeric_derivative(expr: str, var: str, x0: float, h: float = 1e-6) -> float:
-    # uses central difference
     env = {}
 
     def eval_at(x):
@@ -403,7 +398,7 @@ def numeric_derivative(expr: str, var: str, x0: float, h: float = 1e-6) -> float
     return (eval_at(x0 + h) - eval_at(x0 - h)) / (2 * h)
 
 
-def gamma(x):  # wrapper for math.gamma
+def gamma(x):
     return math.gamma(x)
 
 
@@ -473,9 +468,9 @@ def safe_eval(src: str, user_env: Dict[str, Any] = None):
         user_env = {}
     env = {}
     env.update(_builtin_funcs)
-    # merge user variables
+
     env.update(user_env)
-    # evaluator will check functions mapping separately
+
     evaluator = SafeEvaluator(env=user_env, funcs=_builtin_funcs)
     try:
         tree = ast.parse(src, mode="exec")
@@ -498,7 +493,6 @@ class CalculatorREPL:
         self.last_result = None
 
     def handle_command(self, line: str) -> bool:
-        # returns True to continue, False to exit
         parts = line.strip().split(None, 1)
         cmd = parts[0][1:] if parts else ""
         arg = parts[1] if len(parts) > 1 else ""
@@ -556,7 +550,6 @@ class CalculatorREPL:
         return True
 
     def _serializable(self, v):
-        # try to make simple values serializable for save/load
         if isinstance(v, (int, float, str, bool)) or v is None:
             return v
         if isinstance(v, complex):
@@ -598,7 +591,6 @@ class CalculatorREPL:
             return self.handle_command(line)
         self.history.append(line)
         line = self.preprocess(line)
-        # allow assignments
         try:
             result = safe_eval(line, self.env)
             # update last result
