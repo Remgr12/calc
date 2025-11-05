@@ -1,6 +1,6 @@
 # calc
 
-This repository contains two small Python calculator programs:
+This repository contains a collection of two Python calculators:
 
 - advanced_calculator.py — a single-file, feature-rich calculator and safe
   expression evaluator (REPL + one-shot).
