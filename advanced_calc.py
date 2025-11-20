@@ -340,9 +340,7 @@ class SafeEvaluator(ast.NodeVisitor):
         idx = self.visit(node.slice)
         return value[idx]
 
-    def visit_Index(self, node: ast.Index):
-        return self.visit(node.value)
-
+    # visit_Index is deprecated in Python 3.9+
     def visit_Slice(self, node: ast.Slice):
         lower = self.visit(node.lower) if node.lower else None
         upper = self.visit(node.upper) if node.upper else None
